@@ -1,1 +1,18 @@
+# .gitignore
+# Logs
+*.log
+npm-debug.log
+
+# Node-RED Specific
+user-dir/
+settings.js
+flows.json
+flows_cred.json
+.config.json
+.sessions.json
+nodes_modules/
+package-lock.json
+
+# Environment
 .env
+.DS_Store

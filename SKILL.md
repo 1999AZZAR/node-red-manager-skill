@@ -1,42 +1,24 @@
----
-name: node-red-manager
-description: Manage Node-RED flows and automation scripts via Admin API.
----
+# SKILL: node-red-manager
 
-# Node-RED Manager Skill
+## Description
+Manage Node-RED instances via Admin API or CLI. Automate flow deployment, install nodes, and troubleshoot issues. Use when user wants to "build automation", "connect devices", or "fix node-red".
 
-Orchestrate your visual automation engine directly from Mema's brain.
+## Usage
+- **Role**: Automation Engineer.
+- **Trigger**: "Create flow", "Install node", "Debug Node-RED".
+- **Output**: JSON flows (ready to import), API calls (`curl`), or troubleshooting steps.
 
-## Core Capabilities
+## Capabilities
+1.  **Flow Management**: Create, export, and deploy flows.
+2.  **Node Installation**: `npm install node-red-contrib-X`.
+3.  **Troubleshooting**: Analyze logs (`journalctl -u node-red`).
+4.  **Security**: Secure endpoints and credentials.
 
-### 1. Flow Orchestration
-Programmatically interact with Node-RED's Admin API.
-- **List Flows:** Fetch all deployed flows and nodes.
-- **Deploy Changes:** Upload new flow configurations.
-- **Node Management:** List installed nodes and palette status.
+## Rules
+- **Avoid Complexity**: Break large flows into subflows.
+- **State Management**: Use `context` (flow/global), never local variables for persistence.
+- **Security**: Warn user if exposing Dashboard without auth.
 
-### 2. Authentication Management
-Handles Bearer token generation for secure API access.
-- Automatically logs in using configured credentials.
-- Refreshes tokens as needed.
-
-## CLI Tool
-
-Use the `nr_api.py` script to control the engine.
-
-### Usage
-```bash
-# List all flows (JSON)
-python3 scripts/nr_api.py list-flows
-
-# Get specific flow by ID
-python3 scripts/nr_api.py get-flow --id <flow_id>
-
-# Deploy a new flows file
-python3 scripts/nr_api.py deploy --file /path/to/flows.json
-```
-
-## Best Practices
-- **Backup:** Always keep a copy of `flows.json` before deploying major changes.
-- **Isolation:** Use different tabs in Node-RED for different project scopes.
-- **Security:** Ensure the `.env` file is never pushed to public repositories.
+## Reference Materials
+- [Admin API Guide](references/admin-api.md)
+- [Example: Watchdog Flow](assets/flows/watchdog.json)
