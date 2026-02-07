@@ -1,7 +1,9 @@
-# SKILL: node-red-manager
+---
+name: node-red-manager
+description: Manage Node-RED instances via Admin API or CLI. Automate flow deployment, install nodes, and troubleshoot issues. Use when user wants to "build automation", "connect devices", or "fix node-red".
+---
 
-## Description
-Manage Node-RED instances via Admin API or CLI. Automate flow deployment, install nodes, and troubleshoot issues. Use when user wants to "build automation", "connect devices", or "fix node-red".
+# Node-RED Manager
 
 ## Setup (Admin Access)
 1.  Copy `.env.example` to `.env`.
