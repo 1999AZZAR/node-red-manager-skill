@@ -3,6 +3,11 @@
 ## Description
 Manage Node-RED instances via Admin API or CLI. Automate flow deployment, install nodes, and troubleshoot issues. Use when user wants to "build automation", "connect devices", or "fix node-red".
 
+## Setup (Admin Access)
+1.  Copy `.env.example` to `.env`.
+2.  Set `NODE_RED_URL` and `NODE_RED_API_TOKEN` (or User/Pass).
+3.  Ensure `settings.js` allows API access (`adminAuth` enabled recommended).
+
 ## Usage
 - **Role**: Automation Engineer.
 - **Trigger**: "Create flow", "Install node", "Debug Node-RED".
