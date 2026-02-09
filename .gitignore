@@ -13,6 +13,14 @@ flows_cred.json
 nodes_modules/
 package-lock.json
 
+# Backups
+node-red-backup-*.json
+
 # Environment
 .env
 .DS_Store
+
+# Python
+__pycache__/
+.venv/
+*.pyc

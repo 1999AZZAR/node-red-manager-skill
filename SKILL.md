@@ -5,27 +5,119 @@ description: Manage Node-RED instances via Admin API or CLI. Automate flow deplo
 
 # Node-RED Manager
 
-## Setup (Admin Access)
-1.  Copy `.env.example` to `.env`.
-2.  Set `NODE_RED_URL` and `NODE_RED_API_TOKEN` (or User/Pass).
-3.  Ensure `settings.js` allows API access (`adminAuth` enabled recommended).
+## Setup
+1. Copy `.env.example` to `.env`.
+2. Set `NODE_RED_URL`, `NODE_RED_USERNAME`, and `NODE_RED_PASSWORD` in `.env`.
+3. The script automatically handles dependencies on first run.
+
+## Infrastructure
+- **Stack Location**: `deployments/node-red`
+- **Data Volume**: `deployments/node-red/data`
+- **Docker Service**: `mema-node-red`
+- **URL**: `https://flow.glassgallery.my.id`
 
 ## Usage
-- **Role**: Automation Engineer.
-- **Trigger**: "Create flow", "Install node", "Debug Node-RED".
-- **Output**: JSON flows (ready to import), API calls (`curl`), or troubleshooting steps.
 
-## Capabilities
-1.  **Flow Management**: Create, export, and deploy flows.
-2.  **Node Installation**: `npm install node-red-contrib-X`.
-3.  **Troubleshooting**: Analyze logs (`journalctl -u node-red`).
-4.  **Security**: Secure endpoints and credentials.
+### Flow Management
 
-## Rules
-- **Avoid Complexity**: Break large flows into subflows.
-- **State Management**: Use `context` (flow/global), never local variables for persistence.
-- **Security**: Warn user if exposing Dashboard without auth.
+```bash
+# List all flows
+scripts/nr list-flows
 
-## Reference Materials
-- [Admin API Guide](references/admin-api.md)
-- [Example: Watchdog Flow](assets/flows/watchdog.json)
+# Get specific flow by ID
+scripts/nr get-flow <flow-id>
+
+# Deploy flows from file
+scripts/nr deploy --file assets/flows/watchdog.json
+
+# Update specific flow
+scripts/nr update-flow <flow-id> --file updated-flow.json
+
+# Delete flow
+scripts/nr delete-flow <flow-id>
+
+# Get flow runtime state
+scripts/nr get-flow-state
+
+# Set flow runtime state
+scripts/nr set-flow-state --file state.json
+```
+
+### Backup & Restore
+
+```bash
+# Backup all flows to file
+scripts/nr backup
+scripts/nr backup --output my-backup.json
+
+# Restore flows from backup
+scripts/nr restore node-red-backup-20260210_120000.json
+```
+
+### Node Management
+
+```bash
+# List installed nodes
+scripts/nr list-nodes
+
+# Install node module
+scripts/nr install-node node-red-contrib-http-request
+
+# Get node information
+scripts/nr get-node node-red-contrib-http-request
+
+# Enable/disable node
+scripts/nr enable-node node-red-contrib-http-request
+scripts/nr disable-node node-red-contrib-http-request
+
+# Remove node
+scripts/nr remove-node node-red-contrib-http-request
+```
+
+### Runtime Information
+
+```bash
+# Get runtime settings
+scripts/nr get-settings
+
+# Get runtime diagnostics
+scripts/nr get-diagnostics
+```
+
+### Context Management
+
+```bash
+# Get context value
+scripts/nr get-context flow my-key
+scripts/nr get-context global shared-data
+
+# Set context value
+scripts/nr set-context flow my-key '"value"'
+scripts/nr set-context global counter '42'
+scripts/nr set-context global config '{"key": "value"}'
+```
+
+## Docker Operations
+
+```bash
+# Restart Node-RED
+cd deployments/node-red && docker compose restart
+
+# View logs
+docker logs mema-node-red --tail 100
+
+# Follow logs
+docker logs -f mema-node-red
+```
+
+## Environment Variables
+
+- `NODE_RED_URL`: Node-RED API endpoint (default: `http://localhost:1880`)
+- `NODE_RED_USERNAME`: Admin username
+- `NODE_RED_PASSWORD`: Admin password
+
+Legacy variable names (`NR_URL`, `NR_USER`, `NR_PASS`) are supported for backward compatibility.
+
+## API Reference
+
+See `references/admin-api.md` for complete Admin API endpoint documentation.
